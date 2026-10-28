@@ -1,0 +1,11 @@
+{
+  "name": "folio-voice",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev:server": "npm --prefix server run dev",
+    "dev:client": "npm --prefix client run dev",
+    "migrate": "npm --prefix server run migrate:latest",
+    "setup": "npm --prefix server install && npm --prefix client install && npm run migrate"
+  }
+}
