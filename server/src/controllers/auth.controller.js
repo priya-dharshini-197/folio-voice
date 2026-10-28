@@ -128,7 +128,11 @@ async function login(req, res, next) {
  * Logout user by clearing HTTP-only cookie
  */
 function logout(req, res) {
-  res.clearCookie('token', COOKIE_OPTIONS);
+  res.clearCookie('token', {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
+  });
   return res.json({ message: 'Logged out successfully.' });
 }
 
