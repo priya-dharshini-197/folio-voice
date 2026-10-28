@@ -25,15 +25,16 @@ export default function Sidebar() {
     { to: '/dashboard/profile', label: 'Profile', icon: User },
     { to: '/dashboard/projects', label: 'Projects', icon: FolderKanban },
     { to: '/dashboard/skills', label: 'Skills', icon: Wrench },
+    { to: '/dashboard/case-studies', label: 'Case Studies', icon: BookOpen },
+    { to: '/dashboard/testimonials', label: 'Testimonials', icon: MessageSquareQuote },
+    { to: '/dashboard/messages', label: 'Messages', icon: Mail },
+    { to: '/dashboard/analytics', label: 'Analytics', icon: BarChart3 },
   ];
 
   const futureLinks = [
-    { label: 'Case Studies', icon: BookOpen, phase: 'Phase 2' },
-    { label: 'Testimonials', icon: MessageSquareQuote, phase: 'Phase 2' },
-    { label: 'Analytics', icon: BarChart3, phase: 'Phase 2' },
     { label: 'Integrations', icon: GitBranch, phase: 'Phase 4' },
-    { label: 'Messages', icon: Mail, phase: 'Phase 2' },
-    { label: 'Settings', icon: Settings, phase: 'Phase 2' },
+    { label: 'Voice Assistant', icon: Sparkles, phase: 'Phase 3' },
+    { label: 'Settings', icon: Settings, phase: 'Phase 5' },
   ];
 
   async function handleLogout() {

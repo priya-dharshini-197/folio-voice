@@ -8,6 +8,11 @@ const authRoutes = require('./routes/auth.routes');
 const profileRoutes = require('./routes/profile.routes');
 const projectRoutes = require('./routes/project.routes');
 const skillRoutes = require('./routes/skill.routes');
+const publicRoutes = require('./routes/public.routes');
+const caseStudyRoutes = require('./routes/caseStudy.routes');
+const testimonialRoutes = require('./routes/testimonial.routes');
+const messageRoutes = require('./routes/message.routes');
+const analyticsRoutes = require('./routes/analytics.routes');
 
 const app = express();
 const PORT = process.env.PORT || 5001;
@@ -32,10 +37,15 @@ app.get('/api/health', (req, res) => {
 });
 
 // 4. API Routes
+app.use('/api/public', publicRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/profile', profileRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/skills', skillRoutes);
+app.use('/api/case-studies', caseStudyRoutes);
+app.use('/api/testimonials', testimonialRoutes);
+app.use('/api/messages', messageRoutes);
+app.use('/api/analytics', analyticsRoutes);
 
 // 5. Global Error Handler
 app.use(errorHandler);
@@ -46,4 +56,3 @@ app.listen(PORT, () => {
 });
 
 module.exports = app;
-

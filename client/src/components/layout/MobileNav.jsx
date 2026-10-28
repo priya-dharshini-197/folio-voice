@@ -7,6 +7,10 @@ import {
   User,
   FolderKanban,
   Wrench,
+  BookOpen,
+  MessageSquareQuote,
+  Mail,
+  BarChart3,
   LogOut,
   Sparkles
 } from 'lucide-react';
@@ -33,6 +37,10 @@ export default function MobileNav() {
     { to: '/dashboard/profile', label: 'Profile', icon: User },
     { to: '/dashboard/projects', label: 'Projects', icon: FolderKanban },
     { to: '/dashboard/skills', label: 'Skills', icon: Wrench },
+    { to: '/dashboard/case-studies', label: 'Case Studies', icon: BookOpen },
+    { to: '/dashboard/testimonials', label: 'Testimonials', icon: MessageSquareQuote },
+    { to: '/dashboard/messages', label: 'Messages', icon: Mail },
+    { to: '/dashboard/analytics', label: 'Analytics', icon: BarChart3 },
   ];
 
   return (
