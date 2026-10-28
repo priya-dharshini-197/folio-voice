@@ -12,3 +12,4 @@ router.delete('/:id', testimonialController.deleteTestimonial);
 router.patch('/:id/publish', testimonialController.togglePublishTestimonial);
 
 module.exports = router;
+

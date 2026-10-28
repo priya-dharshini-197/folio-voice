@@ -8,3 +8,4 @@ router.use(authenticateToken);
 router.get('/', analyticsController.getAnalytics);
 
 module.exports = router;
+

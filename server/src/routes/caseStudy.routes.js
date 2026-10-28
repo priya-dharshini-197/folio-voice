@@ -12,3 +12,4 @@ router.delete('/:id', caseStudyController.deleteCaseStudy);
 router.patch('/:id/publish', caseStudyController.togglePublishCaseStudy);
 
 module.exports = router;
+

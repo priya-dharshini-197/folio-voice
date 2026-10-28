@@ -10,3 +10,4 @@ router.patch('/:id/read', messageController.markMessageAsRead);
 router.delete('/:id', messageController.deleteMessage);
 
 module.exports = router;
+

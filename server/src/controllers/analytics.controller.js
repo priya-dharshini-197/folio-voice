@@ -120,3 +120,4 @@ async function getAnalytics(req, res, next) {
 module.exports = {
   getAnalytics
 };
+

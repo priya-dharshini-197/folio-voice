@@ -8,3 +8,4 @@ router.post('/u/:username/view', publicController.recordPortfolioView);
 router.post('/u/:username/message', publicController.submitContactMessage);
 
 module.exports = router;
+
