@@ -11,3 +11,4 @@ router.put('/:id', skillController.updateSkill);
 router.delete('/:id', skillController.deleteSkill);
 
 module.exports = router;
+

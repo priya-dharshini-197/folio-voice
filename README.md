@@ -78,3 +78,4 @@ Frontend runs at: `http://localhost:5173`
 | **7. Logout** | `POST /api/auth/logout` clears authentication cookie | **PASSED** |
 | **8. Route Guarding** | Unauthorized request to `/api/projects` returns HTTP 401 | **PASSED** |
 | **9. Re-Login** | `POST /api/auth/login` verifies credentials and establishes new session | **PASSED** |
+

@@ -358,3 +358,4 @@ export default function SkillsPage() {
     </div>
   );
 }
+

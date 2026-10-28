@@ -9,3 +9,4 @@
     "setup": "npm --prefix server install && npm --prefix client install && npm run migrate"
   }
 }
+

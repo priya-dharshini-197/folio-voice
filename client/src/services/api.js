@@ -54,3 +54,4 @@ export const api = {
   updateSkill: (id, payload) => request(`/skills/${id}`, { method: 'PUT', body: JSON.stringify(payload) }),
   deleteSkill: (id) => request(`/skills/${id}`, { method: 'DELETE' })
 };
+

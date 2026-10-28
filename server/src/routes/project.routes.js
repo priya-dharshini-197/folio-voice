@@ -14,3 +14,4 @@ router.patch('/:id/publish', projectController.togglePublish);
 router.patch('/:id/featured', projectController.toggleFeatured);
 
 module.exports = router;
+
