@@ -2,7 +2,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const db = require('../config/db');
 
-const JWT_SECRET = process.env.JWT_SECRET || 'super_secret_folio_voice_jwt_key_2026_dev';
+const JWT_SECRET = process.env.JWT_SECRET;
 const COOKIE_OPTIONS = {
   httpOnly: true,
   secure: process.env.NODE_ENV === 'production',
