@@ -6,6 +6,6 @@ const { authenticateToken } = require('../middleware/auth');
 router.use(authenticateToken);
 
 router.get('/', analyticsController.getAnalytics);
+router.get('/activity', analyticsController.getRecentActivity);
 
 module.exports = router;
-

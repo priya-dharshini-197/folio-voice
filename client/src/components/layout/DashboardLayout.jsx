@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import MobileNav from './MobileNav';
 import AuroraBackground from '../common/AuroraBackground';
+import VoiceAssistantPanel from '../voice/VoiceAssistantPanel';
 
 export default function DashboardLayout() {
   return (
@@ -17,7 +18,9 @@ export default function DashboardLayout() {
           <Outlet />
         </div>
       </main>
+
+      {/* Floating Voice & Command Assistant */}
+      <VoiceAssistantPanel />
     </div>
   );
 }
-

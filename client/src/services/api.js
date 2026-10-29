@@ -75,6 +75,7 @@ export const api = {
 
   // Analytics
   getAnalytics: (range = '7d') => request(`/analytics?range=${range}`),
+  getRecentActivity: () => request('/analytics/activity'),
 
   // Public Endpoints
   getPublicPortfolio: (username) => request(`/public/u/${encodeURIComponent(username)}`),

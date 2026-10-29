@@ -117,7 +117,38 @@ async function getAnalytics(req, res, next) {
   }
 }
 
+/**
+ * Get recent activity for authenticated freelancer
+ * Strictly scoped to req.user.id
+ */
+async function getRecentActivity(req, res, next) {
+  try {
+    const userId = req.user.id;
+    const [recentProjects, recentMessages] = await Promise.all([
+      db('projects')
+        .where({ user_id: userId })
+        .orderBy('created_at', 'desc')
+        .limit(3)
+        .select('id', 'title', 'category', 'is_published', 'created_at'),
+      db('messages')
+        .where({ user_id: userId })
+        .orderBy('created_at', 'desc')
+        .limit(3)
+        .select('id', 'sender_name', 'sender_email', 'is_read', 'created_at')
+    ]);
+
+    return res.json({
+      recent_projects: recentProjects,
+      recent_messages: recentMessages,
+      summary: `You have ${recentProjects.length} recent project${recentProjects.length === 1 ? '' : 's'} and ${recentMessages.length} client inquir${recentMessages.length === 1 ? 'y' : 'ies'}.`
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
 module.exports = {
-  getAnalytics
+  getAnalytics,
+  getRecentActivity
 };
 

@@ -29,11 +29,11 @@ export default function Sidebar() {
     { to: '/dashboard/testimonials', label: 'Testimonials', icon: MessageSquareQuote },
     { to: '/dashboard/messages', label: 'Messages', icon: Mail },
     { to: '/dashboard/analytics', label: 'Analytics', icon: BarChart3 },
+    { to: '/dashboard/integrations', label: 'Integrations', icon: GitBranch },
   ];
 
   const futureLinks = [
-    { label: 'Integrations', icon: GitBranch, phase: 'Phase 4' },
-    { label: 'Voice Assistant', icon: Sparkles, phase: 'Phase 3' },
+    { label: 'Voice Mode (Gnani AI)', icon: Sparkles, phase: 'Phase 5' },
     { label: 'Settings', icon: Settings, phase: 'Phase 5' },
   ];
 

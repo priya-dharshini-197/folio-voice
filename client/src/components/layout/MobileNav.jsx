@@ -11,6 +11,7 @@ import {
   MessageSquareQuote,
   Mail,
   BarChart3,
+  GitBranch,
   LogOut,
   Sparkles
 } from 'lucide-react';
@@ -41,6 +42,7 @@ export default function MobileNav() {
     { to: '/dashboard/testimonials', label: 'Testimonials', icon: MessageSquareQuote },
     { to: '/dashboard/messages', label: 'Messages', icon: Mail },
     { to: '/dashboard/analytics', label: 'Analytics', icon: BarChart3 },
+    { to: '/dashboard/integrations', label: 'Integrations', icon: GitBranch },
   ];
 
   return (

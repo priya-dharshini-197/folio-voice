@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import {
   FolderKanban,
   Plus,
@@ -16,6 +17,7 @@ import Modal from '../../components/common/Modal';
 import { api } from '../../services/api';
 
 export default function ProjectsPage() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [projects, setProjects] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [loading, setLoading] = useState(true);
@@ -52,6 +54,30 @@ export default function ProjectsPage() {
   useEffect(() => {
     loadProjects();
   }, []);
+
+  // Handle voice or query action: "Add a project called [Title]"
+  useEffect(() => {
+    const action = searchParams.get('action');
+    const title = searchParams.get('title');
+    if (action === 'new') {
+      setEditingProject(null);
+      setForm({
+        title: title || '',
+        description: '',
+        cover_image_url: '',
+        category: 'Full-Stack',
+        tags: '',
+        tech_stack: '',
+        github_url: '',
+        live_url: '',
+        is_featured: false,
+        is_published: true
+      });
+      setModalOpen(true);
+      // Clear URL param after opening modal
+      setSearchParams({}, { replace: true });
+    }
+  }, [searchParams]);
 
   // Compute categories dynamically from projects, "All" always first
   const categories = useMemo(() => {

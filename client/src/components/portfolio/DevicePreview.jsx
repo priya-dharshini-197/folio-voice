@@ -2,9 +2,15 @@ import React, { useState } from 'react';
 import { Monitor, Tablet, Smartphone, ExternalLink, RefreshCw } from 'lucide-react';
 import GlassCard from '../common/GlassCard';
 
-export default function DevicePreview({ username }) {
-  const [device, setDevice] = useState('desktop'); // 'desktop' | 'tablet' | 'phone'
+export default function DevicePreview({ username, initialDevice = 'desktop' }) {
+  const [device, setDevice] = useState(initialDevice); // 'desktop' | 'tablet' | 'phone'
   const [iframeKey, setIframeKey] = useState(0);
+
+  React.useEffect(() => {
+    if (initialDevice && ['desktop', 'tablet', 'phone'].includes(initialDevice)) {
+      setDevice(initialDevice);
+    }
+  }, [initialDevice]);
 
   const deviceConfigs = {
     desktop: {

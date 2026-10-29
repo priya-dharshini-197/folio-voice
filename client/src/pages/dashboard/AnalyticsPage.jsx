@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import {
   BarChart3,
   TrendingUp,
@@ -26,6 +27,7 @@ import { useAuth } from '../../context/AuthContext';
 import { api } from '../../services/api';
 
 export default function AnalyticsPage() {
+  const [searchParams] = useSearchParams();
   const { profile } = useAuth();
   const [range, setRange] = useState('7d'); // '7d' | '30d' | 'all'
   const [data, setData] = useState(null);
@@ -237,7 +239,10 @@ export default function AnalyticsPage() {
       </GlassCard>
 
       {/* INTERACTIVE DEVICE PREVIEW ("Public Page on Every Screen") */}
-      <DevicePreview username={profile?.username} />
+      <DevicePreview
+        username={profile?.username}
+        initialDevice={searchParams.get('device') || 'desktop'}
+      />
     </div>
   );
 }
