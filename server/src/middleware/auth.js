@@ -18,8 +18,8 @@ async function authenticateToken(req, res, next) {
       return res.status(401).json({ error: 'Authentication required. Please log in.' });
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'super_secret_folio_voice_jwt_key_2026_dev');
-    
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
     // Fetch user without password
     const user = await db('users')
       .where({ id: decoded.id })

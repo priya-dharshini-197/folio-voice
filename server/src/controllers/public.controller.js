@@ -2,7 +2,7 @@ const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const db = require('../config/db');
 
-const JWT_SECRET = process.env.JWT_SECRET || 'super_secret_folio_voice_jwt_key_2026_dev';
+const JWT_SECRET = process.env.JWT_SECRET;
 
 // In-memory rate limiting for contact form: max 5 messages per 15 minutes per IP
 const rateLimitMap = new Map();
