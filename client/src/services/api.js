@@ -77,6 +77,10 @@ export const api = {
   getAnalytics: (range = '7d') => request(`/analytics?range=${range}`),
   getRecentActivity: () => request('/analytics/activity'),
 
+  // GitHub
+  getGithubRepos: (username) => request(`/github/repos?username=${encodeURIComponent(username)}`),
+  importGithubRepos: (payload) => request('/github/import', { method: 'POST', body: JSON.stringify(payload) }),
+
   // Public Endpoints
   getPublicPortfolio: (username) => request(`/public/u/${encodeURIComponent(username)}`),
   recordPortfolioView: (username) => request(`/public/u/${encodeURIComponent(username)}/view`, { method: 'POST' }),
