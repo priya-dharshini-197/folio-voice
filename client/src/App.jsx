@@ -17,6 +17,7 @@ import CaseStudiesPage from './pages/dashboard/CaseStudiesPage';
 import TestimonialsPage from './pages/dashboard/TestimonialsPage';
 import MessagesPage from './pages/dashboard/MessagesPage';
 import AnalyticsPage from './pages/dashboard/AnalyticsPage';
+import IntegrationsPage from './pages/dashboard/IntegrationsPage';
 
 export default function App() {
   return (
@@ -46,6 +47,7 @@ export default function App() {
             <Route path="testimonials" element={<TestimonialsPage />} />
             <Route path="messages" element={<MessagesPage />} />
             <Route path="analytics" element={<AnalyticsPage />} />
+            <Route path="integrations" element={<IntegrationsPage />} />
           </Route>
 
           {/* Catch-all Fallback */}

@@ -20,9 +20,9 @@ export default function IntegrationsPage() {
       <div className="p-4 rounded-xl bg-ice-500/10 border border-ice-400/30 text-sm text-slate-200 flex items-start gap-3">
         <Clock className="w-5 h-5 text-ice-400 flex-shrink-0 mt-0.5" />
         <div>
-          <h4 className="font-bold text-white mb-0.5">Scheduled Implementation: Phase 4</h4>
+          <h4 className="font-bold text-white mb-0.5">Coming soon</h4>
           <p className="text-xs text-slate-300 leading-relaxed">
-            Per the project specification (SPEC Part 16), genuine GitHub repository import, contribution heatmap (via GraphQL API with personal access token), Dev.to articles, and Remotive freelance feeds will be delivered in Phase 4.
+            GitHub repository import, the contribution heatmap, DEV articles and freelance opportunities are coming in the next update.
           </p>
         </div>
       </div>
@@ -40,7 +40,7 @@ export default function IntegrationsPage() {
               <h3 className="text-lg font-bold text-white flex items-center gap-2">
                 <span>GitHub Repositories & Activity</span>
                 <span className="text-[10px] bg-navy-800 text-ice-400 border border-ice-400/20 px-2 py-0.5 rounded font-mono">
-                  Phase 4 Feature
+                  Coming soon
                 </span>
               </h3>
               <p className="text-xs text-slate-400 mt-0.5">
@@ -51,20 +51,20 @@ export default function IntegrationsPage() {
 
           <div className="p-2 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-300 text-xs flex items-center gap-1.5 self-start sm:self-auto">
             <ShieldAlert className="w-4 h-4" />
-            <span>Zero Fabricated Data Rule Active</span>
+            <span>Only real data is shown</span>
           </div>
         </div>
 
         {/* Status Explanation */}
         <div className="space-y-4">
           <p className="text-sm text-slate-300 leading-relaxed">
-            In compliance with working rule #3 (<em>"No fake data. Never fabricate analytics, GitHub contributions, jobs, articles or API responses"</em>), repository listings will be populated via verified live backend API requests once the GitHub integration is introduced in Phase 4.
+            GitHub import is coming soon. You will be able to connect your public GitHub username, choose repositories and import them as editable draft projects. Nothing is imported or published automatically.
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
             <div className="p-4 rounded-xl bg-navy-950/70 border border-navy-800 space-y-1.5">
               <h4 className="text-xs font-semibold text-ice-300 uppercase tracking-wider">
-                Planned: Repo Selection & Import
+                Repo Selection & Import
               </h4>
               <p className="text-xs text-slate-400 leading-relaxed">
                 Fetch your public repositories, select projects, and import them directly as editable unpublished drafts.
@@ -73,7 +73,7 @@ export default function IntegrationsPage() {
 
             <div className="p-4 rounded-xl bg-navy-950/70 border border-navy-800 space-y-1.5">
               <h4 className="text-xs font-semibold text-ice-300 uppercase tracking-wider">
-                Planned: 26-Week Heatmap
+                26-Week Heatmap
               </h4>
               <p className="text-xs text-slate-400 leading-relaxed">
                 Render an authentic GitHub GraphQL contribution calendar with ice-blue intensity levels.
