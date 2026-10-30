@@ -5,6 +5,7 @@ import {
 } from 'lucide-react';
 import GlassCard from '../../components/common/GlassCard';
 import { api } from '../../services/api';
+import DevtoArticles from './DevtoArticles';
 
 function formatDate(iso) {
   if (!iso) return '';
@@ -330,13 +331,13 @@ export default function IntegrationsPage() {
       </GlassCard>
 
       {/* Other integrations: not built yet */}
+      <DevtoArticles />
       <div className="p-4 rounded-xl bg-ice-500/10 border border-ice-400/30 text-sm text-slate-200 flex items-start gap-3">
         <Clock className="w-5 h-5 text-ice-400 flex-shrink-0 mt-0.5" />
         <div>
           <h4 className="font-bold text-white mb-0.5">Coming soon</h4>
           <p className="text-xs text-slate-300 leading-relaxed">
-            The contribution heatmap, DEV articles and freelance opportunities are coming in the next update.
-          </p>
+            The contribution heatmap and freelance opportunities are coming in the next update.          </p>
         </div>
       </div>
     </div>
