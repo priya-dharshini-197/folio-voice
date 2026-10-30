@@ -14,6 +14,7 @@ const testimonialRoutes = require('./routes/testimonial.routes');
 const messageRoutes = require('./routes/message.routes');
 const analyticsRoutes = require('./routes/analytics.routes');
 const githubRoutes = require('./routes/github.routes');
+const devtoRoutes = require('./routes/devto.routes');
 
 
 
@@ -50,6 +51,7 @@ app.use('/api/testimonials', testimonialRoutes);
 app.use('/api/messages', messageRoutes);
 app.use('/api/analytics', analyticsRoutes);
 app.use('/api/github', githubRoutes);
+app.use('/api/devto', devtoRoutes);
 
 // 5. Global Error Handler
 app.use(errorHandler);
