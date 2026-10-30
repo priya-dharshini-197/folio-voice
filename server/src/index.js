@@ -15,6 +15,7 @@ const messageRoutes = require('./routes/message.routes');
 const analyticsRoutes = require('./routes/analytics.routes');
 const githubRoutes = require('./routes/github.routes');
 const devtoRoutes = require('./routes/devto.routes');
+const remotiveRoutes = require('./routes/remotive.routes');
 
 
 
@@ -52,6 +53,7 @@ app.use('/api/messages', messageRoutes);
 app.use('/api/analytics', analyticsRoutes);
 app.use('/api/github', githubRoutes);
 app.use('/api/devto', devtoRoutes);
+app.use('/api/remotive', remotiveRoutes);
 
 // 5. Global Error Handler
 app.use(errorHandler);

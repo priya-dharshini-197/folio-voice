@@ -6,6 +6,7 @@ import {
 import GlassCard from '../../components/common/GlassCard';
 import { api } from '../../services/api';
 import DevtoArticles from './DevtoArticles';
+import RemotiveJobs from './RemotiveJobs';
 
 function formatDate(iso) {
   if (!iso) return '';
@@ -332,6 +333,7 @@ export default function IntegrationsPage() {
 
       {/* Other integrations: not built yet */}
       <DevtoArticles />
+      <RemotiveJobs />
       <div className="p-4 rounded-xl bg-ice-500/10 border border-ice-400/30 text-sm text-slate-200 flex items-start gap-3">
         <Clock className="w-5 h-5 text-ice-400 flex-shrink-0 mt-0.5" />
         <div>

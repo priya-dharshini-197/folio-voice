@@ -81,6 +81,7 @@ export const api = {
   getGithubRepos: (username) => request(`/github/repos?username=${encodeURIComponent(username)}`),
   importGithubRepos: (payload) => request('/github/import', { method: 'POST', body: JSON.stringify(payload) }),
   getDevtoArticles: (username) => request(`/devto/articles?username=${encodeURIComponent(username)}`),
+  getRemotiveJobs: (keywords) => request(`/remotive/jobs?keywords=${encodeURIComponent(keywords || '')}`),
 
   // Public Endpoints
   getPublicPortfolio: (username) => request(`/public/u/${encodeURIComponent(username)}`),
