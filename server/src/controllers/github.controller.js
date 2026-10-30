@@ -1,6 +1,5 @@
 const db = require('../config/db');
-const { fetchRepos, GithubError } = require('../services/github.service');
-
+const { fetchRepos, fetchProfile, GithubError } = require('../services/github.service');
 const MAX_IMPORT = 20;
 
 function clean(value, max) {
@@ -39,9 +38,12 @@ async function listRepos(req, res, next) {
             .whereNotNull('github_url')
             .select('github_url');
         const imported = new Set(existing.map((p) => p.github_url));
+        // The profile call is optional: if it fails, the repo list still works
+        const profile = await fetchProfile(username).catch(() => null);
 
         return res.json({
             ...data,
+            profile,
             repos: data.repos.map((r) => ({ ...r, alreadyImported: imported.has(r.url) })),
         });
     } catch (err) {

@@ -75,4 +75,39 @@ async function fetchRepos(username) {
     }
 }
 
-module.exports = { fetchRepos, isValidUsername, GithubError };
+async function fetchProfile(username) {
+    if (!isValidUsername(username)) {
+        throw new GithubError('Please enter a valid GitHub username.', 400);
+    }
+    const headers = { Accept: 'application/vnd.github+json', 'User-Agent': 'folio-voice' };
+    if (process.env.GITHUB_TOKEN) headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
+
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 8000);
+    try {
+        const res = await fetch(`https://api.github.com/users/${encodeURIComponent(username)}`, {
+            headers,
+            signal: controller.signal,
+        });
+        if (res.status === 404) throw new GithubError('GitHub user not found.', 404);
+        if (res.status === 403 || res.status === 429) {
+            throw new GithubError('GitHub rate limit reached. Please try again later.', 429);
+        }
+        if (!res.ok) throw new GithubError(`GitHub returned an error (${res.status}).`, 502);
+        const u = await res.json();
+        return {
+            followers: u.followers,
+            following: u.following,
+            publicRepos: u.public_repos,
+            profileUrl: u.html_url,
+        };
+    } catch (err) {
+        if (err instanceof GithubError) throw err;
+        if (err.name === 'AbortError') throw new GithubError('GitHub took too long to respond.', 504);
+        throw new GithubError('Could not reach GitHub. Live data is temporarily unavailable.', 502);
+    } finally {
+        clearTimeout(timer);
+    }
+}
+
+module.exports = { fetchRepos, fetchProfile, isValidUsername, GithubError };

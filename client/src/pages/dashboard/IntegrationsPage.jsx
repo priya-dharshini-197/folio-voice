@@ -75,6 +75,12 @@ export default function IntegrationsPage() {
 
   const repos = result?.repos || [];
   const importable = repos.filter((r) => !r.alreadyImported);
+  const totalStars = repos.reduce((sum, r) => sum + (r.stars || 0), 0);
+  const languageCounts = repos.reduce((acc, r) => {
+    if (r.language) acc[r.language] = (acc[r.language] || 0) + 1;
+    return acc;
+  }, {});
+  const languageList = Object.entries(languageCounts).sort((a, b) => b[1] - a[1]);
 
   return (
     <div className="space-y-8 max-w-5xl">
@@ -181,6 +187,42 @@ export default function IntegrationsPage() {
               </div>
             )}
 
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="p-4 rounded-xl bg-navy-950/70 border border-navy-800 space-y-2">
+                <h4 className="text-xs font-semibold text-ice-300 uppercase tracking-wider">
+                  GitHub account
+                </h4>
+                {result.profile ? (
+                  <p className="text-sm text-slate-200">
+                    {result.profile.followers} followers · {result.profile.publicRepos} public repositories
+                  </p>
+                ) : (
+                  <p className="text-xs text-slate-500">Account details are not available right now.</p>
+                )}
+                <p className="text-[11px] text-slate-500">Data from GitHub</p>
+              </div>
+
+              <div className="p-4 rounded-xl bg-navy-950/70 border border-navy-800 space-y-2">
+                <h4 className="text-xs font-semibold text-ice-300 uppercase tracking-wider">
+                  Fetched repositories
+                </h4>
+                <p className="text-sm text-slate-200">
+                  {totalStars} total {totalStars === 1 ? 'star' : 'stars'} across {repos.length} {repos.length === 1 ? 'repository' : 'repositories'}
+                </p>
+                {languageList.length > 0 ? (
+                  <div className="flex flex-wrap gap-1.5">
+                    {languageList.map(([lang, count]) => (
+                      <span key={lang} className="text-[11px] px-2 py-0.5 rounded bg-navy-800 text-ice-300 border border-ice-400/20">
+                        {lang} · {count}
+                      </span>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-xs text-slate-500">No languages reported by GitHub.</p>
+                )}
+                <p className="text-[11px] text-slate-500">Counts only the repositories listed below</p>
+              </div>
+            </div>
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
               <p className="text-xs text-slate-400">
                 {repos.length} public {repos.length === 1 ? 'repository' : 'repositories'} for{' '}
