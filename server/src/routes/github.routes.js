@@ -17,6 +17,7 @@ router.use(authenticateToken);
 router.use(githubLimiter);
 
 router.get('/repos', githubController.listRepos);
+router.get('/contributions', githubController.getContributions);
 router.post('/import', githubController.importRepos);
 
 module.exports = router;

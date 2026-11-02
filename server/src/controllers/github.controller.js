@@ -1,5 +1,5 @@
 const db = require('../config/db');
-const { fetchRepos, fetchProfile, GithubError } = require('../services/github.service');
+const { fetchRepos, fetchProfile, fetchContributions, GithubError } = require('../services/github.service');
 const MAX_IMPORT = 20;
 
 function clean(value, max) {
@@ -118,4 +118,18 @@ async function importRepos(req, res, next) {
     }
 }
 
-module.exports = { listRepos, importRepos };
+/**
+ * GET /api/github/contributions?username=...
+ * Returns the last 26 weeks of contribution counts, or { available: false } when no token is set.
+ */
+async function getContributions(req, res, next) {
+    try {
+        const username = String(req.query.username || '').trim();
+        const data = await fetchContributions(username);
+        return res.json(data);
+    } catch (err) {
+        return sendError(err, res, next);
+    }
+}
+
+module.exports = { listRepos, importRepos, getContributions };

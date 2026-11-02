@@ -80,6 +80,7 @@ export const api = {
   // GitHub
   getGithubRepos: (username) => request(`/github/repos?username=${encodeURIComponent(username)}`),
   importGithubRepos: (payload) => request('/github/import', { method: 'POST', body: JSON.stringify(payload) }),
+  getGithubContributions: (username) => request(`/github/contributions?username=${encodeURIComponent(username)}`),
   getDevtoArticles: (username) => request(`/devto/articles?username=${encodeURIComponent(username)}`),
   getRemotiveJobs: (keywords) => request(`/remotive/jobs?keywords=${encodeURIComponent(keywords || '')}`),
 

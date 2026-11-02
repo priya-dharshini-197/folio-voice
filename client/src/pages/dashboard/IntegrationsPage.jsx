@@ -7,6 +7,7 @@ import GlassCard from '../../components/common/GlassCard';
 import { api } from '../../services/api';
 import DevtoArticles from './DevtoArticles';
 import RemotiveJobs from './RemotiveJobs';
+import ContributionHeatmap from './ContributionHeatmap';
 
 function formatDate(iso) {
   if (!iso) return '';
@@ -225,6 +226,7 @@ export default function IntegrationsPage() {
                 <p className="text-[11px] text-slate-500">Counts only the repositories listed below</p>
               </div>
             </div>
+            <ContributionHeatmap username={result.username} />
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
               <p className="text-xs text-slate-400">
                 {repos.length} public {repos.length === 1 ? 'repository' : 'repositories'} for{' '}

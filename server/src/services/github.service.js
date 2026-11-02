@@ -110,4 +110,96 @@ async function fetchProfile(username) {
     }
 }
 
-module.exports = { fetchRepos, fetchProfile, isValidUsername, GithubError };
+const CONTRIBUTION_CACHE_TTL_MS = 30 * 60 * 1000; // 30 minutes
+const contributionCache = new Map();
+const LEVELS = { NONE: 0, FIRST_QUARTILE: 1, SECOND_QUARTILE: 2, THIRD_QUARTILE: 3, FOURTH_QUARTILE: 4 };
+
+async function fetchContributions(username, weeks = 26) {
+    if (!isValidUsername(username)) {
+        throw new GithubError('Please enter a valid GitHub username.', 400);
+    }
+    // The GraphQL API needs a token. Without one we say so honestly instead of inventing data.
+    if (!process.env.GITHUB_TOKEN) {
+        return { available: false, reason: 'no_token' };
+    }
+
+    const key = `${username.toLowerCase()}:${weeks}`;
+    const cached = contributionCache.get(key);
+    if (cached && Date.now() - cached.savedAt < CONTRIBUTION_CACHE_TTL_MS) {
+        return { ...cached.data, fromCache: true, stale: false };
+    }
+
+    const to = new Date();
+    const from = new Date(to.getTime() - (weeks + 1) * 7 * 24 * 60 * 60 * 1000);
+    const query = `query($login: String!, $from: DateTime!, $to: DateTime!) {
+    user(login: $login) {
+      contributionsCollection(from: $from, to: $to) {
+        contributionCalendar {
+          weeks { contributionDays { date contributionCount contributionLevel } }
+        }
+      }
+    }
+  }`;
+
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 10000);
+    try {
+        const res = await fetch('https://api.github.com/graphql', {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+                'Content-Type': 'application/json',
+                'User-Agent': 'folio-voice',
+            },
+            body: JSON.stringify({
+                query,
+                variables: { login: username, from: from.toISOString(), to: to.toISOString() },
+            }),
+            signal: controller.signal,
+        });
+
+        if (res.status === 401) return { available: false, reason: 'token_rejected' };
+        if (res.status === 403 || res.status === 429) {
+            throw new GithubError('GitHub rate limit reached. Please try again later.', 429);
+        }
+        if (!res.ok) throw new GithubError(`GitHub returned an error (${res.status}).`, 502);
+
+        const body = await res.json();
+        if (body.errors && body.errors.length) {
+            const notFound = body.errors.some((e) => e.type === 'NOT_FOUND');
+            if (notFound) throw new GithubError('GitHub user not found.', 404);
+            throw new GithubError('GitHub could not return contribution data.', 502);
+        }
+
+        const rawWeeks = body.data.user.contributionsCollection.contributionCalendar.weeks;
+        const recent = rawWeeks.slice(-weeks).map((w) =>
+            w.contributionDays.map((d) => ({
+                date: d.date,
+                count: d.contributionCount,
+                level: LEVELS[d.contributionLevel] ?? 0,
+            }))
+        );
+        const total = recent.reduce((sum, w) => sum + w.reduce((s, d) => s + d.count, 0), 0);
+
+        const data = {
+            available: true,
+            username,
+            weeks: recent,
+            totalContributions: total,
+            weeksShown: recent.length,
+            fetchedAt: new Date().toISOString(),
+            source: 'GitHub',
+        };
+        contributionCache.set(key, { data, savedAt: Date.now() });
+        return { ...data, fromCache: false, stale: false };
+    } catch (err) {
+        if (cached) return { ...cached.data, fromCache: true, stale: true };
+        if (err instanceof GithubError) throw err;
+        if (err.name === 'AbortError') throw new GithubError('GitHub took too long to respond.', 504);
+        throw new GithubError('Could not reach GitHub. Live data is temporarily unavailable.', 502);
+    } finally {
+        clearTimeout(timer);
+    }
+}
+
+module.exports = { fetchRepos, fetchProfile, fetchContributions, isValidUsername, GithubError };
