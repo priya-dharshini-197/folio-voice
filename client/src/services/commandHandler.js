@@ -231,8 +231,8 @@ export async function processVoiceCommand(rawInput, { navigate, profile }) {
     return {
       commandId: 'NAV_GITHUB',
       success: true,
-      responseText: 'Navigating to GitHub integrations. Note: genuine GitHub repository import is scheduled for Phase 4.',
-      actionDescription: 'Navigated to /dashboard/integrations (Phase 4 preview)'
+      responseText: 'Opening your GitHub integrations. Enter your GitHub username there and click Fetch Repos.',
+      actionDescription: 'Navigated to /dashboard/integrations'
     };
   }
 
