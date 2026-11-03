@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import {
   GitBranch, Clock, ShieldAlert, Search, Loader2, Star, Download,
@@ -226,7 +227,9 @@ export default function IntegrationsPage() {
                 <p className="text-[11px] text-slate-500">Counts only the repositories listed below</p>
               </div>
             </div>
+
             <ContributionHeatmap username={result.username} />
+
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
               <p className="text-xs text-slate-400">
                 {repos.length} public {repos.length === 1 ? 'repository' : 'repositories'} for{' '}
@@ -333,15 +336,17 @@ export default function IntegrationsPage() {
         )}
       </GlassCard>
 
-      {/* Other integrations: not built yet */}
+      {/* Other integrations */}
       <DevtoArticles />
       <RemotiveJobs />
+
       <div className="p-4 rounded-xl bg-ice-500/10 border border-ice-400/30 text-sm text-slate-200 flex items-start gap-3">
         <Clock className="w-5 h-5 text-ice-400 flex-shrink-0 mt-0.5" />
         <div>
           <h4 className="font-bold text-white mb-0.5">Coming soon</h4>
           <p className="text-xs text-slate-300 leading-relaxed">
-            The contribution heatmap and freelance opportunities are coming in the next update.          </p>
+            More integrations are coming in the next update.
+          </p>
         </div>
       </div>
     </div>
