@@ -30,11 +30,7 @@ export default function Sidebar() {
     { to: '/dashboard/messages', label: 'Messages', icon: Mail },
     { to: '/dashboard/analytics', label: 'Analytics', icon: BarChart3 },
     { to: '/dashboard/integrations', label: 'Integrations', icon: GitBranch },
-  ];
-
-  const futureLinks = [
-    { label: 'Voice Mode (Gnani AI)', icon: Sparkles, phase: 'Phase 5' },
-    { label: 'Settings', icon: Settings, phase: 'Phase 5' },
+    { to: '/dashboard/settings', label: 'Settings', icon: Settings },
   ];
 
   async function handleLogout() {
@@ -107,4 +103,3 @@ export default function Sidebar() {
     </aside>
   );
 }
-

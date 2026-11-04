@@ -202,7 +202,7 @@ export default function OverviewPage() {
 
           <div className="pt-4 border-t border-navy-800">
             <div className="p-3 rounded-xl bg-ice-500/10 border border-ice-400/20 text-xs text-slate-300">
-              <span className="font-semibold text-ice-300">Phase 1 Status:</span> Profile, Projects, and Skills management are fully active with SQLite persistence.
+              <span className="font-semibold text-ice-300">Public link:</span> Anyone can open it without signing in. Only published projects, case studies and testimonials are shown.
             </div>
           </div>
         </GlassCard>
