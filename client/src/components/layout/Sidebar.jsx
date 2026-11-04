@@ -58,7 +58,7 @@ export default function Sidebar() {
       {/* Nav List */}
       <nav className="flex-1 px-4 py-6 overflow-y-auto space-y-1">
         <div className="text-[11px] font-semibold tracking-wider text-slate-400 uppercase px-3 mb-2">
-          Core Management
+          Workspace
         </div>
         {activeLinks.map((link) => {
           const Icon = link.icon;
@@ -78,27 +78,6 @@ export default function Sidebar() {
               <Icon className="w-4 h-4" />
               <span>{link.label}</span>
             </NavLink>
-          );
-        })}
-
-        <div className="pt-6 text-[11px] font-semibold tracking-wider text-slate-500 uppercase px-3 mb-2">
-          Upcoming Phases
-        </div>
-        {futureLinks.map((link) => {
-          const Icon = link.icon;
-          return (
-            <div
-              key={link.label}
-              className="flex items-center justify-between px-3 py-2 rounded-xl text-sm text-slate-500 cursor-not-allowed opacity-60"
-            >
-              <div className="flex items-center gap-3">
-                <Icon className="w-4 h-4" />
-                <span>{link.label}</span>
-              </div>
-              <span className="text-[10px] bg-navy-800 text-slate-400 px-1.5 py-0.5 rounded border border-navy-700">
-                {link.phase}
-              </span>
-            </div>
           );
         })}
       </nav>

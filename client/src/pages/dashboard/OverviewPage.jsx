@@ -244,11 +244,10 @@ export default function OverviewPage() {
                     <span className="text-[10px] uppercase font-semibold text-ice-400 bg-ice-500/10 px-2 py-0.5 rounded border border-ice-400/20">
                       {p.category}
                     </span>
-                    <span className={`text-[10px] px-2 py-0.5 rounded font-medium ${
-                      p.is_published
-                        ? 'bg-emerald-500/15 text-emerald-300 border border-emerald-500/30'
-                        : 'bg-slate-800 text-slate-400 border border-slate-700'
-                    }`}>
+                    <span className={`text-[10px] px-2 py-0.5 rounded font-medium ${p.is_published
+                      ? 'bg-emerald-500/15 text-emerald-300 border border-emerald-500/30'
+                      : 'bg-slate-800 text-slate-400 border border-slate-700'
+                      }`}>
                       {p.is_published ? 'Published' : 'Draft'}
                     </span>
                   </div>
