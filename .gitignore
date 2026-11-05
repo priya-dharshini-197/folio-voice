@@ -6,3 +6,4 @@ dist
 server/data/*.sqlite
 server/data/*.sqlite-journal
 
+server/scripts/*.wav
