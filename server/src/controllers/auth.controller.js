@@ -55,8 +55,7 @@ async function register(req, res, next) {
       const [userId] = await trx('users').insert({
         email: email.toLowerCase(),
         password_hash
-      });
-
+      }, 'id');
       const actualUserId = typeof userId === 'object' ? userId.id : userId;
 
       const [profileId] = await trx('profiles').insert({
@@ -64,7 +63,7 @@ async function register(req, res, next) {
         username: username.toLowerCase(),
         full_name: full_name.trim(),
         contact_email: email.toLowerCase()
-      });
+      }, 'id');
 
       const user = await trx('users').where({ id: actualUserId }).select('id', 'email', 'created_at').first();
       const profile = await trx('profiles').where({ user_id: actualUserId }).first();

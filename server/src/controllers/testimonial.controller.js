@@ -54,7 +54,7 @@ async function createTestimonial(req, res, next) {
       source_type: source_type?.trim() || 'self_entered',
       related_project_id: related_project_id || null,
       is_published: Boolean(is_published)
-    });
+    }, 'id');
 
     const actualId = typeof insertedId === 'object' ? insertedId.id : insertedId;
     const created = await db('testimonials').where({ id: actualId }).first();

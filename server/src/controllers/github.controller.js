@@ -106,7 +106,7 @@ async function importRepos(req, res, next) {
                 is_published: false, // never auto-publish imported repos
             };
 
-            const [insertedId] = await db('projects').insert(row);
+            const [insertedId] = await db('projects').insert(row, 'id');
             const actualId = typeof insertedId === 'object' ? insertedId.id : insertedId;
             importedUrls.add(repo.url);
             created.push({ id: actualId, title: row.title });

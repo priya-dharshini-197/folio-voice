@@ -98,8 +98,7 @@ async function createProject(req, res, next) {
       is_published: Boolean(is_published)
     };
 
-    const [insertedId] = await db('projects').insert(newProjectData);
-    const actualId = typeof insertedId === 'object' ? insertedId.id : insertedId;
+    const [insertedId] = await db('projects').insert(newProjectData, 'id'); const actualId = typeof insertedId === 'object' ? insertedId.id : insertedId;
 
     const created = await db('projects').where({ id: actualId }).first();
     return res.status(201).json(formatProject(created));

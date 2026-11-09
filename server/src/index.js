@@ -21,6 +21,7 @@ const voiceRoutes = require('./routes/voice.routes');
 
 
 const app = express();
+app.set('trust proxy', 2); // Vercel + Render sit in front of this server
 const PORT = process.env.PORT || 5001;
 const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:5173';
 

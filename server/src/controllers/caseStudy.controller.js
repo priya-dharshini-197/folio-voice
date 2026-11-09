@@ -33,7 +33,10 @@ async function createCaseStudy(req, res, next) {
     } = req.body;
 
     if (!title || !title.trim()) {
-      return res.status(400).json({ error: 'Case study title is required.' });
+      return res.status(400).json({
+        error: 'Case study title is required.'
+
+      }, 'id');
     }
 
     const [insertedId] = await db('case_studies').insert({

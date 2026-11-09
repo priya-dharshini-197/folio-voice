@@ -39,8 +39,7 @@ async function createSkill(req, res, next) {
       category: category?.trim() || 'Frontend',
       proficiency: validProficiency,
       years_of_experience: validYears
-    });
-
+    }, 'id');
     const actualId = typeof insertedId === 'object' ? insertedId.id : insertedId;
     const created = await db('skills').where({ id: actualId }).first();
 
