@@ -1,6 +1,7 @@
 # Folio Voice
 
 **Your work. Your portfolio. Your voice.**
+One-page pitch: [SOLUTION_PITCH.md](SOLUTION_PITCH.md)
 
 Folio Voice is a voice-enabled freelancer portfolio manager. Freelancers manage their profile, projects, skills, case studies and testimonials from a private dashboard, publish a public portfolio page, and see how many people visit it. A voice assistant lets them navigate and ask questions by speaking or typing.
 
