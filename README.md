@@ -116,7 +116,7 @@ There are no automated tests yet.
 - The GitHub heatmap needs a server-side token. It shows what GitHub's API reports, which may differ from the graph on github.com.
 - Remotive's public feed is small. Jobs are filtered by keyword on the server.
 - DEV articles use a DEV username, which can differ from the GitHub username.
-- `npm audit` reports vulnerabilities in some dependencies. They have not been reviewed yet.
+- `npm audit` reports 7 findings, all from the local-only `sqlite3` development package (its build tools include an old `tar`). The deployed server installs without optional packages, so it does not include them, and the app never reads tar files. They are accepted for local development and will be removed by upgrading `sqlite3` when convenient.
 - Proficiency levels and testimonials are entered by the user. They are not independently verified.
 
 ## Roadmap
