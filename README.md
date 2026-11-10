@@ -1,103 +1,124 @@
-# Folio Voice — Voice-Enabled Freelancer Portfolio Manager
+# Folio Voice
 
-> *"Your work. Your portfolio. Your voice."*
+**Your work. Your portfolio. Your voice.**
 
-A multi-user web platform where freelancers create, manage, publish, share, and analyze professional portfolios.
+Folio Voice is a voice-enabled freelancer portfolio manager. Freelancers manage their profile, projects, skills, case studies and testimonials from a private dashboard, publish a public portfolio page, and see how many people visit it. A voice assistant lets them navigate and ask questions by speaking or typing.
 
----
+- Live site: https://folio-voice-client.vercel.app
+- API: https://folio-voice-api.onrender.com/api/health
 
-## 🚀 Quick Start (Run Locally)
+> The backend runs on a free Render instance, which sleeps after about 15 minutes without traffic. The first request after a quiet period can take 30 to 60 seconds. Open the API health link first if a login attempt times out.
 
-### 1. Prerequisites
-- **Node.js**: v18+ (tested on Node v24)
-- **npm**: v9+
+## Features
 
-### 2. Setup
-Run the setup command from the project root:
+| Area | What it does |
+|---|---|
+| Accounts | Register, log in, log out. Passwords are hashed (bcrypt). Sessions use JWT in HTTP-only cookies. |
+| Dashboard | Overview, profile editor with a profile-completeness checklist, projects, skills, case studies, testimonials, messages, analytics, integrations and settings. |
+| Public portfolio | `/u/<username>` works without signing in and shows only published content. Includes project filters, project detail windows and a contact form. |
+| Analytics | Views over time from real recorded visits. One view per visitor per day. The owner's own visits are not counted. |
+| Voice assistant | Eight commands (add a project, view count, profile completeness, open public portfolio, go to skills, preview phone, recent activity, GitHub repositories), by typing or speaking. Two voice engines: Browser (Web Speech API) and Gnani AI (Prisma speech-to-text and Timbre text-to-speech). |
+| GitHub | Fetch public repositories, import selected ones as **unpublished** drafts, account and repository statistics, and a 26-week contribution heatmap. |
+| DEV and Remotive | Latest DEV articles for a username, and remote job listings filtered by keywords. |
+
+## Tech stack
+
+- **Frontend:** React, Vite, Tailwind CSS, React Router
+- **Backend:** Node.js, Express, Knex
+- **Database:** SQLite for local development, PostgreSQL (Neon) in production
+- **Voice:** Web Speech API (browser) and Gnani AI Prisma and Timbre (through the server)
+- **Hosting:** Vercel (frontend), Render (backend), Neon (database)
+
+## Run it locally
+
+You need Node.js 20 or newer.
+
 ```bash
-npm run setup
-```
-*(Installs all backend and frontend dependencies and applies SQLite database migrations.)*
+# 1. Install dependencies
+npm --prefix server install
+npm --prefix client install
 
-### 3. Start the Application
-Open two terminal windows:
+# 2. Create your environment file and fill it in
+cp server/.env.example server/.env
 
-**Terminal 1 — Backend API (Port 5001):**
-```bash
-npm run dev:server
-```
-Backend runs at: `http://localhost:5001`
+# 3. Create the database tables (SQLite file in server/data)
+cd server && npx knex migrate:latest && cd ..
 
-**Terminal 2 — Frontend Application (Port 5173):**
-```bash
-npm run dev:client
-```
-Frontend runs at: `http://localhost:5173`
+# 4. Start the backend (terminal 1)
+cd server && node src/index.js
 
----
-
-## 👁️ View Tracking Definition & Rules (Part 14)
-
-1. **Definition of a View:** A view is recorded when an external visitor loads a freelancer's public portfolio page (`/u/:username`).
-2. **Deduplication Rule (1 View per Visitor per Portfolio per Day):**
-   - Each visitor session is anonymized into a cryptographic hash of their IP address, user-agent, and a server salt.
-   - Stored in the `portfolio_views` table with a unique constraint on `(user_id, visitor_hash, view_date)`.
-   - Repeated page refreshes or revisits from the same visitor on the same calendar day **do not increment** the view count.
-3. **Owner Exemption:**
-   - If the logged-in freelancer views their own public portfolio (`req.user.id === portfolio.user_id`), the event is flagged as `owner_exempt` and **is never recorded**, preventing preview visits from inflating analytics.
-4. **Zero-Data State:**
-   - If there are zero recorded views, the analytics dashboard renders an honest zero state (`0 views recorded`). Analytics are strictly derived from real database records and never simulated.
-
----
-
-## 🛡️ Public Security & Isolation Rules
-
-1. **Sanitized Public API (`GET /api/public/u/:username`):**
-   - Returns **only published items** (`is_published: true`).
-   - **Never exposes** account emails, password hashes, or private messages.
-   - Contact is performed through the secure portfolio contact form.
-2. **Contact Form Protection (`POST /api/public/u/:username/message`):**
-   - Server-side email format validation.
-   - Message length enforcement (10 to 2,000 characters).
-   - Rate limiting: maximum 5 messages per 15 minutes per IP address.
-   - Hidden honeypot field (`hp_field`): submissions containing data in this field are blocked as bot spam.
-   - Messages are saved directly with the recipient freelancer's `user_id`.
-3. **Strict Cross-User Isolation:**
-   - Private dashboard routes (`/api/projects`, `/api/case-studies`, `/api/testimonials`, `/api/messages`, `/api/analytics`) enforce server-side ownership checks (`where({ user_id: req.user.id })`).
-   - Freelancers cannot view, edit, or delete another freelancer's projects or private client inquiries.
-
----
-
-## 🧪 Phase 2 Verification Test Results
-
-```
---- PHASE 2 TEST SUMMARY ---
-Total tests executed: 22
-Passed: 22
-Failed: 0
+# 5. Start the frontend (terminal 2, from the project root)
+npm --prefix client run dev
 ```
 
-| # | Test Case | Action Verified | Result |
-| :---: | :--- | :--- | :---: |
-| 1 | **User Registration** | `POST /api/auth/register` creates account & profile with JWT cookie | **PASSED** |
-| 2 | **Published & Draft Projects** | Saved items with publication flags (`is_published`) | **PASSED** |
-| 3 | **Case Studies CRUD** | Created problem, solution, approach, and impact metrics | **PASSED** |
-| 4 | **Testimonials Management** | Created client endorsements with transparent *self-entered* distinction | **PASSED** |
-| 5 | **Public API Publication Filter** | `GET /api/public/u/:username` returns published items only; drafts withheld | **PASSED** |
-| 6 | **Public Data Sanitization** | No password hashes, account emails, or private messages exposed | **PASSED** |
-| 7 | **Unpublish Flow** | Unpublishing a project immediately removes it from the public portfolio | **PASSED** |
-| 8 | **View Tracking: Initial Visit** | Unique visitor records view in `portfolio_views` | **PASSED** |
-| 9 | **View Tracking: Deduplication** | 2nd visit from same visitor on same day ignored (`already_viewed_today`) | **PASSED** |
-| 10 | **View Tracking: Owner Exemption** | Authenticated owner viewing own portfolio ignored (`owner_exempt`) | **PASSED** |
-| 11 | **Contact Form: Invalid Email** | Rejected malformed email address with HTTP 400 | **PASSED** |
-| 12 | **Contact Form: Short Message** | Rejected message under 10 characters with HTTP 400 | **PASSED** |
-| 13 | **Contact Form: Honeypot** | Rejected spam bot submission with HTTP 400 | **PASSED** |
-| 14 | **Contact Form: Valid Message** | Persisted message with 201 Created and confirmed confirmation message | **PASSED** |
-| 15 | **Freelancer Inbox** | Recipient freelancer receives inquiry in `/api/messages` | **PASSED** |
-| 16 | **Message Read Status** | `PATCH /api/messages/:id/read` marks inquiry as read | **PASSED** |
-| 17 | **Cross-User Project Read Security** | User B cannot read User A's project (HTTP 404) | **PASSED** |
-| 18 | **Cross-User Project Edit Security** | User B cannot modify User A's project (HTTP 404) | **PASSED** |
-| 19 | **Cross-User Messages Isolation** | User B inbox shows 0 messages (User A's inquiries are confidential) | **PASSED** |
-| 20 | **Analytics: Real Data** | User A chart displays real recorded view count | **PASSED** |
-| 21 | **Analytics: Honest Zero State** | User B with 0 views shows honest zero state (`has_views: false`) | **PASSED** |
-| 22 | **Device Preview** | "Public Page on Every Screen" interactive controls (Desktop, Tablet, Phone) | **PASSED** |
+Open http://localhost:5173. The frontend forwards `/api` calls to the backend on port 5001.
+
+Run the backend from inside the `server` folder, so that `server/.env` is found.
+
+## Environment variables (`server/.env`)
+
+| Variable | Purpose |
+|---|---|
+| `PORT` | Backend port. Default 5001. Render sets it automatically. |
+| `NODE_ENV` | `development` locally, `production` when deployed. |
+| `JWT_SECRET` | Long random string used to sign login tokens. Required. Generate one with `node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"`. |
+| `CLIENT_URL` | Address of the frontend, used for CORS. |
+| `DB_FILENAME` | Local SQLite file. Default `./data/folio.sqlite`. |
+| `DB_CLIENT` | Set to `pg` to use Postgres locally. Leave unset to use SQLite. |
+| `DATABASE_URL` | PostgreSQL connection string. Used in production. |
+| `GITHUB_TOKEN` | Optional. A GitHub token with no scopes. Needed only for the contribution heatmap. Without it the heatmap says "not available". |
+| `GNANI_API_KEY` | Optional. Needed only for the Gnani AI voice mode. Without it the panel says Gnani voice is not set up, and browser voice and typed commands still work. |
+
+Never commit `server/.env`. It is listed in `.gitignore`.
+
+## Deployment
+
+1. **Database:** create a free Neon project and copy its connection string.
+2. **Backend (Render web service):** root directory `server`, build command `npm install --omit=optional`, start command `npm run start:prod` (runs the migrations, then starts the server). Set `NODE_ENV`, `DATABASE_URL`, `JWT_SECRET` (a different one from local), `CLIENT_URL`, `GNANI_API_KEY` and `GITHUB_TOKEN`.
+3. **Frontend (Vercel):** root directory `client`, framework Vite. `client/vercel.json` forwards `/api` to the Render backend, so the login cookie belongs to the frontend's own address and works in all browsers. It also sends page refreshes to the app.
+
+## Voice assistant notes
+
+- **Browser mode** uses the Web Speech API. Support depends on the browser (Chrome works best). Typed commands always work.
+- **Gnani AI mode** records from the microphone, converts the audio to a 16 kHz mono WAV file in the browser, and sends it to the server, which calls Gnani. The API key never reaches the browser. Recordings stop after 25 seconds (Gnani accepts up to 30). The app uses English (`en-IN`) and the Kaveri voice.
+- Spoken and typed commands share one handler. Nothing is created, published or deleted by voice without the user pressing Save.
+
+## How views are counted
+
+A view is one visit per visitor per portfolio per day. The visitor is identified by a hash of their address and browser, not stored in plain form. The portfolio owner viewing their own page is not counted. If there are no visits, the chart shows zero. No sample data is ever shown.
+
+## Testing
+
+Manual testing, with the status of each area. Update the "Live site" column as you check each item.
+
+| Area | Local (manual) | Live site |
+|---|---|---|
+| Register, login, logout, protected pages | Passed | To check |
+| Projects, skills, case studies, testimonials (create, edit, delete, refresh) | Passed | To check |
+| Publish and unpublish, public page shows only published items | Passed | To check |
+| Contact form and Messages page | Passed | To check |
+| View counting and analytics chart | Passed | To check |
+| Voice commands (typed and spoken, browser and Gnani) | Passed | To check |
+| GitHub import, statistics, heatmap | Passed | To check |
+| DEV articles and Remotive jobs | Passed | To check |
+| Another user cannot read or change someone else's projects or messages | Passed (API checked with a second account) | To check |
+| Phone-width layouts | Passed | To check |
+| Safari login (cookies) | Not tested | To check |
+
+There are no automated tests yet.
+
+## Known limitations
+
+- Free hosting: the backend sleeps when idle (see above).
+- The Settings page shows account details, the public link and voice status. Changing the password and deleting the account are not implemented.
+- Project cover images are links only. There is no image upload.
+- The contact-form rate limit is kept in memory, so it resets when the server restarts.
+- The GitHub heatmap needs a server-side token. It shows what GitHub's API reports, which may differ from the graph on github.com.
+- Remotive's public feed is small. Jobs are filtered by keyword on the server.
+- DEV articles use a DEV username, which can differ from the GitHub username.
+- `npm audit` reports vulnerabilities in some dependencies. They have not been reviewed yet.
+- Proficiency levels and testimonials are entered by the user. They are not independently verified.
+
+## Roadmap
+
+AI-generated biography and case-study drafts, messaging between freelancers and clients, more portfolio templates, custom domains, and freelance marketplace integration.
